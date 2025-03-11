@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#121212">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>todotracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h2>Todo-Tracker</h2>
+            <h3>Una app sencilla, para organizar tus listas y trackear tu dia a dia!</h3>
+            <div class="date-navigation">
+                <button id="prev-day">←</button>
+                <div id="current-date">Cargando...</div>
+                <button id="next-day">→</button>
+                <button id="copy-groups" title="Copiar grupos del día anterior">📋</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="groups-container">
+                <div class="group-creator">
+                    <input type="text" id="new-group-input" placeholder="Nombre del nuevo grupo">
+                    <button id="add-group-btn">Crear Grupo</button>
+                </div>
+                
+                <div id="groups-grid">
+                    <!-- Los grupos se insertarán aquí dinámicamente -->
+                </div>
+            </section>
+            
+            <section class="daily-summary">
+                <h2>Resumen del Día</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <span id="total-tasks">0</span>
+                        <span>Total</span>
+                    </div>
+                    <div class="stat-box">
+                        <span id="completed-tasks">0</span>
+                        <span>Completadas</span>
+                    </div>
+                    <div class="stat-box">
+                        <span id="completion-rate">0%</span>
+                        <span>Progreso</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Plantilla para grupos -->
+        <template id="group-template">
+            <div class="group-card">
+                <div class="group-header">
+                    <h3 class="group-title"></h3>
+                    <div class="group-actions">
+                        <button class="toggle-group-btn">▼</button>
+                        <button class="delete-group-btn">✕</button>
+                    </div>
+                </div>
+                <div class="group-content">
+                    <ul class="todo-list">
+                        <!-- Las tareas se insertarán aquí dinámicamente -->
+                    </ul>
+                    <div class="todo-creator">
+                        <input type="text" class="new-todo-input" placeholder="Nueva tarea">
+                        <button class="add-todo-btn">+</button>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Plantilla para tareas -->
+        <template id="todo-template">
+            <li class="todo-item">
+                <div class="todo-checkbox-wrapper">
+                    <input type="checkbox" class="todo-checkbox">
+                    <span class="todo-text"></span>
+                </div>
+                <div class="todo-actions">
+                    <span class="todo-date"></span>
+                    <button class="delete-todo-btn">✕</button>
+                </div>
+            </li>
+        </template>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

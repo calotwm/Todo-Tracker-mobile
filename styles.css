@@ -1,0 +1,480 @@
+/* Estilos generales */
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --bg-card-header: #2d2d2d;
+    --accent-color: #ff3c00;
+    --accent-hover:rgb(255, 30, 0);
+    --text-primary: #e0e0e0;
+    --text-secondary: #bbbbbb;
+    --border-radius: 18px;
+    --shadow: 1 10px 20px rgba(0, 0, 0, 0.3);
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a1a 50%, #3a3a3a 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-size: 16px;
+}
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 700 700' width='700' height='700'%3E%3Cdefs%3E%3Cfilter id='nnnoise-filter' x='-20%25' y='-20%25' width='140%25' height='140%25' filterUnits='objectBoundingBox' primitiveUnits='userSpaceOnUse' color-interpolation-filters='linearRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.102' numOctaves='4' seed='15' stitchTiles='stitch' x='0%25' y='0%25' width='100%25' height='100%25' result='turbulence'%3E%3C/feTurbulence%3E%3CfeSpecularLighting surfaceScale='15' specularConstant='1.3' specularExponent='20' lighting-color='%239a9a9a' x='0%25' y='0%25' width='100%25' height='100%25' in='turbulence' result='specularLighting'%3E%3CfeDistantLight azimuth='3' elevation='92'%3E%3C/feDistantLight%3E%3C/feSpecularLighting%3E%3C/filter%3E%3C/defs%3E%3Crect width='700' height='700' fill='%23000000ff'%3E%3C/rect%3E%3Crect width='700' height='700' fill='%239a9a9a' filter='url(%23nnnoise-filter)'%3E%3C/rect%3E%3C/svg%3E");
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: lighten;
+
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    transition: all var(--transition-speed) ease;
+}
+
+input {
+    background-image: linear-gradient(to left top, #252525, #212121, #1c1c1c, #181818, #141414);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--text-primary);
+    padding: 8px 12px;
+    transition: all var(--transition-speed) ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.3);
+}
+
+/* Layout de la aplicación */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+header h2 {
+    font-size: 6rem;
+    color: var(--accent-color);
+    margin-bottom: 4rem;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.329);
+}
+
+header h2:hover {
+    transition: ease-in 0.3s;
+    filter: blur(2px);
+}
+
+header h3 {
+    margin-bottom: 4rem;
+}
+
+.date-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+}
+
+.date-navigation button {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+}
+
+.date-navigation button:hover {
+    background-color: var(--accent-color);
+}
+
+#current-date {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    min-width: 200px;
+    text-align: center;
+}
+
+main {
+    display: grid;
+    gap: 2rem;
+}
+
+/* Sección de grupos */
+.group-creator {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.group-creator input {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 1rem;
+}
+
+.group-creator button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0 24px;
+    font-weight: bold;
+}
+
+.group-creator button:hover {
+    background-color: var(--accent-hover);
+}
+
+#groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Tarjetas de grupo */
+.group-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition-speed) ease;
+}
+
+.group-card:hover {
+    transform: translateY(-5px);
+}
+
+.group-header {
+    background-color: var(--bg-card-header);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.group-title {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+.group-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.group-actions button {
+    background-color: transparent;
+    color: var(--text-secondary);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.group-actions button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.delete-group-btn:hover {
+    color: #ff4d4d;
+}
+
+.group-content {
+    padding: 1rem;
+}
+
+/* Lista de tareas */
+.todo-list {
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.todo-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.todo-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-color);
+}
+
+.todo-text {
+    transition: all var(--transition-speed) ease;
+}
+
+.todo-checkbox:checked + .todo-text {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.todo-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.todo-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.delete-todo-btn {
+    background-color: transparent;
+    color: var(--text-secondary);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-todo-btn:hover {
+    color: #735bff;
+}
+
+/* Creador de tareas */
+.todo-creator {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.new-todo-input {
+    flex: 1;
+}
+
+.add-todo-btn {
+    background-color: var(--accent-color);
+    color: rgb(255, 255, 255);
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-todo-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Resumen diario */
+.daily-summary {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+}
+
+.daily-summary h2 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    text-align: center;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-box span:first-child {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.stat-box span:last-child {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .app-container {
+        padding: 1rem;
+    }
+
+    header h2 {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    header h3 {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+
+    .date-navigation {
+        margin-bottom: 2rem;
+    }
+
+    .date-navigation button {
+        width: 36px;
+        height: 36px;
+    }
+
+    #current-date {
+        font-size: 1rem;
+        min-width: 150px;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .group-creator {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .group-creator input,
+    .group-creator button {
+        width: 100%;
+        padding: 10px;
+    }
+
+    #groups-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .group-card {
+        margin-bottom: 1rem;
+    }
+
+    .group-header {
+        padding: 0.75rem;
+    }
+
+    .group-title {
+        font-size: 1.1rem;
+    }
+
+    .todo-item {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .todo-checkbox {
+        width: 16px;
+        height: 16px;
+    }
+
+    .todo-actions {
+        gap: 0.5rem;
+    }
+
+    .todo-date {
+        font-size: 0.7rem;
+    }
+
+    .delete-todo-btn,
+    .delete-group-btn {
+        width: 28px;
+        height: 28px;
+        padding: 4px;
+    }
+
+    .daily-summary {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .daily-summary h2 {
+        font-size: 1.2rem;
+    }
+
+    .stat-box span:first-child {
+        font-size: 1.5rem;
+    }
+
+    .stat-box span:last-child {
+        font-size: 0.8rem;
+    }
+
+    .todo-creator {
+        gap: 0.4rem;
+    }
+
+    .new-todo-input {
+        padding: 8px;
+    }
+
+    .add-todo-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 480px) {
+    .app-container {
+        padding: 0.75rem;
+    }
+
+    header h2 {
+        font-size: 2.5rem;
+    }
+
+    .group-card {
+        border-radius: calc(var(--border-radius) * 0.75);
+    }
+
+    .todo-checkbox-wrapper {
+        gap: 0.5rem;
+    }
+
+    .stats {
+        gap: 1rem;
+    }
+}
