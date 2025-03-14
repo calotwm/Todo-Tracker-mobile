@@ -478,3 +478,47 @@ main {
         gap: 1rem;
     }
 }
+
+/* Task timing styles */
+.todo-created-time,
+.todo-completed-time {
+    font-size: 0.75rem;
+    margin-right: 8px;
+    color: #888;
+    display: inline-block;
+}
+
+.todo-created-time {
+    color: #6c7ae0;
+}
+
+.todo-completed-time {
+    color: #4caf50;
+}
+
+.todo-times {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 8px;
+}
+
+/* Make the todo actions container more flexible */
+.todo-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 480px) {
+    .todo-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    
+    .todo-created-time,
+    .todo-completed-time {
+        font-size: 0.7rem;
+    }
+}

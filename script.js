@@ -97,6 +97,13 @@ function toggleTodoCompleted(groupId, todoId) {
     const todo = todoData[currentDateString][groupId].todos[todoId];
     todo.completed = !todo.completed;
     
+    // Add or remove completion time
+    if (todo.completed) {
+        todo.completedAt = new Date().toISOString();
+    } else {
+        delete todo.completedAt;
+    }
+    
     // Actualizar UI
     updateStats();
     saveToLocalStorage();
@@ -250,11 +257,64 @@ function renderTodos(groupId) {
         // Configurar checkbox
         const checkbox = todoNode.querySelector('.todo-checkbox');
         checkbox.checked = todo.completed;
-        checkbox.addEventListener('change', () => toggleTodoCompleted(groupId, todoId));
+        if (todo.completed) {
+            todoItem.classList.add('completed');
+        }
         
-        // Configurar fecha
-        const todoDate = todoNode.querySelector('.todo-date');
-        todoDate.textContent = formatTime(new Date(todo.createdAt));
+        // Configurar fecha y tiempos
+        const todoActions = todoNode.querySelector('.todo-actions');
+        
+        // Añadir tiempo de creación
+        const createdTimeSpan = document.createElement('span');
+        createdTimeSpan.className = 'todo-created-time';
+        createdTimeSpan.title = 'Creado a las';
+        createdTimeSpan.textContent = `📝 ${formatTime(new Date(todo.createdAt))}`;
+        todoActions.insertBefore(createdTimeSpan, todoNode.querySelector('.delete-todo-btn'));
+        
+        // Añadir tiempo de completado si existe
+        if (todo.completed && todo.completedAt) {
+            const completedTimeSpan = document.createElement('span');
+            completedTimeSpan.className = 'todo-completed-time';
+            completedTimeSpan.title = 'Completado a las';
+            completedTimeSpan.textContent = `✓ ${formatTime(new Date(todo.completedAt))}`;
+            todoActions.insertBefore(completedTimeSpan, todoNode.querySelector('.delete-todo-btn'));
+        }
+        
+        // Event listeners
+        checkbox.addEventListener('change', function() {
+            const todo = todoData[currentDateString][groupId].todos[todoId];
+            todo.completed = this.checked;
+            
+            todoItem.classList.toggle('completed', this.checked);
+            
+            if (this.checked) {
+                // Record completion time
+                const completionTime = new Date();
+                todo.completedAt = completionTime.toISOString();
+                
+                // Add completion time display
+                let completedTimeSpan = todoItem.querySelector('.todo-completed-time');
+                if (!completedTimeSpan) {
+                    completedTimeSpan = document.createElement('span');
+                    completedTimeSpan.className = 'todo-completed-time';
+                    completedTimeSpan.title = 'Completado a las';
+                    const todoActions = todoItem.querySelector('.todo-actions');
+                    todoActions.insertBefore(completedTimeSpan, todoItem.querySelector('.delete-todo-btn'));
+                }
+                completedTimeSpan.textContent = `✓ ${formatTime(completionTime)}`;
+            } else {
+                // Remove completion time
+                delete todo.completedAt;
+                const completedTimeSpan = todoItem.querySelector('.todo-completed-time');
+                if (completedTimeSpan) {
+                    completedTimeSpan.remove();
+                }
+            }
+            
+            // Save changes
+            saveToLocalStorage();
+            updateStats();
+        });
         
         // Configurar botón de eliminar
         todoNode.querySelector('.delete-todo-btn').addEventListener('click', () => deleteTodo(groupId, todoId));
@@ -314,14 +374,14 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
+// Helper function to format time as HH:MM
 function formatTime(date) {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+    return date.toLocaleTimeString('es-ES', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false 
+    });
 }
-
-// Iniciar la aplicación
-document.addEventListener('DOMContentLoaded', init);
 
 // Function to copy groups from the previous day
 function copyGroupsFromPreviousDay() {
@@ -354,3 +414,8 @@ function copyGroupsFromPreviousDay() {
     renderGroups();
     saveToLocalStorage();
 }
+
+// Initialize the application when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    init();
+});
